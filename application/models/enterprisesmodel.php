@@ -91,6 +91,21 @@ class Enterprisesmodel extends CI_Model
     	$query .= $data['isactive']."');";
     	    	
     	$result = mysql_query($query);
+    	
+    	$query = "SELECT roleid FROM roles where rolename='".$data['rolename']."'";
+    	$result = mysql_query($query);
+    	$row = mysql_fetch_assoc($result);
+    	$roleid = $row['roleid'];
+    	
+
+    	$data['param'] = rtrim($data['param'], " ");
+    	$panelid = explode(" ",$data['param']);
+    	$query = "";
+    	for($count = 0; $count < count($panelid); $count++)
+    	{
+    		$query= "INSERT INTO role_panel_mapping (roleid, panel_id) VALUES ('".$roleid."', '".$panelid[$count]."');";
+    		mysql_query($query);
+    	}
     }
     
     public function addpanel($data)
@@ -415,15 +430,12 @@ public function getUserDetails($user_id){
 		$usersDetailsArray[$i] = $row;
 		$i++;
 	}
-	//error_log(print_r($usersArray));
 	return $usersDetailsArray;
 }
 
 public function getAllRoles(){
 	$dbHandle = $this->init();
-	$query = "SELECT * FROM roles";
-	//$query .= " where role_status='1'";
-	//$query .= " order by roleid";
+	$query = "SELECT * FROM roles WHERE isactive='1' order by rolename";
 	
 	$result = mysql_query($query);
 	
@@ -556,18 +568,41 @@ public function getPanelDetailsByUrl($panel_url){
 	return $panelDetailsArray;
 }
 
-public function updateRole($role_id, $post){
+public function updaterole($post)
+{
 	$dbHandle = $this->init();
-	$query = "update role_tbl set role_desc='".$post['role_desc']."', role_status='".$post['role_status']."' where role_id='".$role_id."'";
-	//error_log("insert user ".$query);
-	$result = $dbHandle->query($query);
-	if($result)
+	
+	$query1 = "update roles set role_description='".$post['roledesc']."'"."where roleid='".$post['roleid']."'";
+	$result1 = $dbHandle->query($query1);
+	
+	$query2 = "update roles set rolename='".$post['rolename']."' where roleid='".$post['roleid']."'";
+	$result2 = $dbHandle->query($query2);
+	
+	if($result1 && $result2)
 	{
+		$post['param'] = rtrim($post['param'], " ");
+		$panelid = explode(" ",$post['param']);
+		$query = "";
+		
+		for($count = 0; $count < count($panelid); $count++)
+		{
+			$query= "INSERT INTO role_panel_mapping (roleid, panel_id) VALUES ('".$post['roleid']."', '".$panelid[$count]."') WHERE not exists (SELECT panel_id FROM role_panel_mapping WHERE role_panel_mapping.roleid ='".$post['roleid']."');";
+			mysql_query($query);
+		}
 		return true;
 	}
-	else
-	{return false;
-	}
+	return false;
+}
+
+public function deletethisrole($role)
+{
+	$dbHandle = $this->init();
+	$query = "update roles set isactive='0' where rolename='".$role."';";
+	$result = $dbHandle->query($query);
+ 	if($result)
+ 		return true;
+ 	else
+ 		return false;
 }
 
 public function updatePanel($panel_id, $post){
@@ -702,6 +737,32 @@ public function getAllInformation($username)
 	$result = mysql_query($query);
 	$row[1] = mysql_fetch_assoc($result);
 	
+	return $row;
+}
+
+public function getAllRoleInformation($roleid)
+{
+	$row = array();
+	$temp = array();
+	$i = 0;
+	
+	$dbHandle = $this->init();
+	$query = "SELECT roleid, rolename, role_description, isactive FROM roles WHERE roles.roleid ='".$roleid."'";
+	$result = mysql_query($query);
+	$row[0] = mysql_fetch_assoc($result);
+	
+	$query = "SELECT panel_id FROM role_panel_mapping WHERE role_panel_mapping.roleid ='".$roleid."'";
+	$result = mysql_query($query);
+	
+	if($result && mysql_num_rows($result) > 0)
+	{
+		while($current = mysql_fetch_assoc($result))
+		{
+			$temp[$i]=$current;
+			$i++;
+		}
+		$row[1] = $temp;
+	}
 	return $row;
 }
 

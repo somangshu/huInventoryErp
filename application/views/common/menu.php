@@ -13,7 +13,9 @@
 </head>
 <body>
 <div id="cssmenu" >
-    <span class="logo"><img src="public/images/logo.png"></span>
+    <span class="logo">
+        <a href="/home"><img src="public/images/logo.png"></a>
+    </span>
 	<?php 
 		$stack[100] = array();
 		$tos = -1;

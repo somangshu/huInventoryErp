@@ -5,17 +5,17 @@ function validateLogin()
     var datastring = 'username='+username+'&password='+password;
     var url = '/validateLogin';
     
-//    if(username == '')
-//    {
-//    	alert("Username cannot be empty.");
-//    	return false;
-//    }
-//    
-//    if(password == '')
-//    {
-//    	alert("Password cannot be empty.");
-//    	return false;
-//    }
+    if(username == '')
+    {
+    	alert("Username cannot be empty.");
+    	return false;
+    }
+    
+    if(password == '')
+    {
+    	alert("Password cannot be empty.");
+    	return false;
+    }
     
     var atpos = username.indexOf("@");
     var dotpos = username.lastIndexOf(".");
@@ -25,6 +25,7 @@ function validateLogin()
         return false;
     }
     
+    alert("validation successful.");
     
     document.forms['loginform'].action='/validateLogin';
     document.forms['loginform'].submit();
@@ -154,21 +155,153 @@ function updateuser()
 	}
 }
 
-function addedrole()
+function updaterole()
 {
+	var roleid = document.getElementById("roleid").value;
 	var rolename = document.getElementById("rolename").value;
 	var roledesc = document.getElementById("roledesc").value;
+	var active = 0;
+	
+	if(document.getElementById("active").checked)
+		active = 1;
+	var checkBoxes = document.getElementsByTagName('input');
+	
+	var param = "";
+	for (var counter=0; counter < checkBoxes.length; counter++) 
+        if (checkBoxes[counter].type.toUpperCase()=='CHECKBOX' && checkBoxes[counter].checked == true)
+                        param += checkBoxes[counter].value + " ";
+	if(rolename == '')
+    {
+    	alert("rolename cannot be empty.");
+    	return false;
+    }
+	else
+	{
+		var datastring = 'roleid='+roleid+'&rolename='+rolename+'&roledesc='+roledesc+'&active='+active+'&param='+param;  
+		var url = '/updaterole';
+      	$.ajax({ 
+	     type   : "POST", 
+	     url    : url, 
+	     data   : datastring,   
+	     success: function(responseText)
+	     {
+	    	 try
+	    	 {
+	    		 document.forms['editthisroleform'].action='/editrole';
+	    		 document.forms['editthisroleform'].submit();
+	    	 }
+	    	 catch(e)
+	    	 {
+	    		 
+	    	 }
+	     }});
+	}
+}
+
+function addedrole()
+{
+	
+	var rolename = document.getElementById("rolename").value;
+	var roledesc = document.getElementById("roledesc").value;
+	var isactive;
+	if (document.getElementById("active").checked) 
+		isactive = 1;
+	else
+		isactive = 0;
 	
 	if(rolename == '' || roledesc == '')
     {
     	alert("One of the fields in empty.");
-    	die();
     }
 	
-	 alert("validation successful.");
-	    
-	 document.forms['addroleform'].action='/addedrole';
-	 document.forms['addroleform'].submit();
+	var checkBoxes = document.getElementsByTagName('input');
+	
+	var param = "";
+	for (var counter=0; counter < checkBoxes.length; counter++) 
+        if (checkBoxes[counter].type.toUpperCase()=='CHECKBOX' && checkBoxes[counter].checked == true)
+                        param += checkBoxes[counter].value + " ";
+	//alert(param);
+	var datastring = 'param='+param+'&rolename='+rolename+'&roledesc='+roledesc+'&isactive='+isactive;
+	var url = '/addedrole';
+  	$.ajax({ 
+     type   : "POST", 
+     url    : url, 
+     data   : datastring,
+     success: function(responseText)
+     { 
+    	 alert(responseText);
+    	 try
+    	 {
+    		 	
+    	 }
+    	 catch(e)
+    	 {
+    		 
+    	 }
+     }});
+}
+
+function editrole()
+{
+    var index = document.getElementById("role");
+    var role = index.options[index.selectedIndex].text;
+    var datastring = 'role='+role;
+    var url = '/editthisrole';
+  	$.ajax({ 
+     type   : "POST", 
+     url    : url, 
+     data   : datastring,
+     success: function(responseText)
+     { 
+    	 alert
+         try
+    	 {
+    		 document.forms['editroleform'].action='/editthisrole';
+    		 document.forms['editroleform'].submit();
+    	 }
+    	 catch(e)
+    	 {
+    		 
+    	 }
+     }});
+}
+
+function deleterole()
+{
+	var index = document.getElementById("role");
+    var rolename = index.options[index.selectedIndex].text;
+    alert(role);
+	
+    if(rolename == "")
+	{
+		alert("rolename cannot be empty.")
+		return false;
+	}
+	else
+	{
+		var datastring = 'rolename='+rolename;  
+      	var url = '/deletethisrole';
+      	$.ajax({ 
+	     type   : "POST", 
+	     url    : url, 
+	     data   : datastring,   
+	     success: function(responseText)
+	     { 
+	    	 alert(responseText);
+	    	 rolename.value = " ";
+	    	 try
+	    	 {
+	    		 
+	    		 //document.forms['deleteroleform'].action='/deletethisrole';
+	    		 //document.forms['deleteroleform'].submit();
+	    	 }
+	    	 catch(e)
+	    	 {
+	    		 
+	    	 }
+	     }});
+   }
+	
 }
 
 function addpanel()
@@ -181,7 +314,7 @@ function addpanel()
 	if(panelname == '' || paneldesc == '' || paneltype == '' || panelparent == '')
     {
     	alert("One of the fields in empty.");
-    	die();
+    	return false;
     }
 	
 	 alert("validation successful.");

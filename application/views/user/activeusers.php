@@ -8,7 +8,7 @@
 	</title>	
 </head>
 <body>
-	<form name="adduserform" id="adduserform" onsubmit="return adduser()" method="post">
+	<form name="activeuserform" id="activeuserform" method="post">
 		<fieldset>
 		<h3>Active User Information</h3>
 		<?php 
