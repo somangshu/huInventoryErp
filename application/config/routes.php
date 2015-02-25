@@ -61,7 +61,11 @@ $route['logout'] = "welcome/logout";
 $route['home'] = "welcome";
 $route['addrole'] = "welcome/addrole";
 $route['addedrole'] = "welcome/addedrole";
-
+$route['editrole'] = "welcome/editrole";
+$route['updaterole'] = "welcome/updaterole";
+$route['deleterole'] = "welcome/deleterole";
+$route['deletethisrole'] = "welcome/deletethisrole";
+$route['editthisrole'] = "welcome/editthisrole";
 
 /* End of file routes.php */
 /* Location: ./application/config/routes.php */

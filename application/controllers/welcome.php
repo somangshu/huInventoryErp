@@ -101,19 +101,6 @@ class Welcome extends CI_Controller {
 		$this->load->view('welcome_message.php',$displayData);
 	}
 	
-	
-	public function adduser_old()
-	{
-		$this->load->model("enterprisemodel");
-		$result = $this->enterprisemodel->getrolesandpanels();
-		
-		$data = array('content'=>'adduser',
-				      'rolesArray'=>$result['rolesArray'],
-					  'panelsArray'=>$result['panelsArray']
-				);
-		$this->load->view('/common/viewtemplate',$data);
-	}
-	
 	public function addpanel()
 	{
 		$data = array('content'=>'addpanel');
@@ -152,9 +139,11 @@ class Welcome extends CI_Controller {
 		$data['rolename'] = $_POST['rolename'];
 		$data['roledesc'] = $_POST['roledesc'];
 		$data['isactive'] = $_POST['isactive'];
+		$data['param'] = $_POST['param'];
 		
 		$this->load->model('enterprisesmodel');
 		$this->load->library('session');
+		
 		$sessionUserData = $this->session->all_userdata();
 		
 		if(isset($sessionUserData['logged_in']) && $sessionUserData['logged_in'])
@@ -162,7 +151,7 @@ class Welcome extends CI_Controller {
 			$displayData['panelsArray']=$this->enterprisesmodel->getAllPanels();
 			$displayData['results'] = $this->enterprisesmodel->activeusers();
 			$displayData['menuPanelsArray']=$this->enterprisesmodel->getAllPanelsByRole($sessionUserData['user_role_id']);
-			$displayData['role'] = $this->enterprisesmodel->addrole($data);
+			$displayData['roleid'] = $this->enterprisesmodel->addrole($data);
 			$displayData['sessionUserData']=$sessionUserData;
 			
 			//$this->load->view('edituser', $displayData);
@@ -641,7 +630,7 @@ public function adduser()
 		$displayData['menuPanelsArray']=$this->enterprisesmodel->getAllPanelsByRole($sessionUserData['user_role_id']);
 		$displayData['sessionUserData']=$sessionUserData;
 		
-		$this->load->view('adduser', $displayData);
+		$this->load->view('/user/adduser', $displayData);
 	}
 	else 
 	{
@@ -663,7 +652,7 @@ public function viewdelete()
 	$displayData['menuPanelsArray']=$this->enterprisesmodel->getAllPanelsByRole($sessionUserData['user_role_id']);
 	$displayData['sessionUserData']=$sessionUserData;
 	
-	$this->load->view('deleteuser', $displayData);
+	$this->load->view('/user/deleteuser', $displayData);
 }
 
 public function activeuser()
@@ -679,7 +668,7 @@ public function activeuser()
 		$displayData['menuPanelsArray']=$this->enterprisesmodel->getAllPanelsByRole($sessionUserData['user_role_id']);
 		$displayData['sessionUserData']=$sessionUserData;
 		
-		$this->load->view('activeusers', $displayData);
+		$this->load->view('/user/activeusers', $displayData);
 	}
 	else
 	{
@@ -815,7 +804,7 @@ public function edituser()
 		$displayData['menuPanelsArray']=$this->enterprisesmodel->getAllPanelsByRole($sessionUserData['user_role_id']);
 		$displayData['sessionUserData']=$sessionUserData;
 		
-		$this->load->view('edituser', $displayData);
+		$this->load->view('/user/edituser', $displayData);
 	}
 	else
 	{
@@ -827,7 +816,7 @@ public function edituser()
 }
 
 public function editthisuser()
-{
+{	
 	$this->load->model('enterprisesmodel');
 	$this->load->library('session');
 	$sessionUserData = $this->session->all_userdata();
@@ -878,7 +867,7 @@ public function updateuser()
 			$displayData['menuPanelsArray'] = $this->enterprisesmodel->getAllPanelsByRole($sessionUserData['user_role_id']);
 			$displayData['sessionUserData'] = $sessionUserData;
 		
-			$this->load->view('edituser', $displayData);
+			$this->load->view('/user/edituser', $displayData);
 		}
 	}
 	else
@@ -914,18 +903,23 @@ public function addrole()
 	}
 }
 
-public function editRole($role_id){
+public function editrole()
+{
 	$this->load->model('enterprisesmodel');
 	$this->load->library('session');
 	$sessionUserData = $this->session->all_userdata();
-	if(isset($sessionUserData['logged_in']) && $sessionUserData['logged_in']){
-		$displayData['allPanelsArray']=$this->enterprisesmodel->getAllPanels('Yes');
-		$displayData['roleDetailsArray']=$this->enterprisesmodel->getRoleDetails($role_id);
-		$displayData['allRolesArray']=$this->enterprisesmodel->getAllRoles('Yes');
-		$displayData['menuPanelsArray']=$this->enterprisesmodel->getAllPanelsByRole($sessionUserData['user_role_id']);
+	
+	if(isset($sessionUserData['logged_in']) && $sessionUserData['logged_in'])
+	{
+		$displayData['panelsArray'] = $this->enterprisesmodel->getAllPanels();
+		$displayData['rolesArray'] = $this->enterprisesmodel->getAllRoles();
 		$displayData['sessionUserData']=$sessionUserData;
-		$this->load->view('role/editRole', $displayData);
-	}else {
+		$displayData['menuPanelsArray'] = $this->enterprisesmodel->getAllPanelsByRole($sessionUserData['user_role_id']);
+	
+		$this->load->view('roles/editrole', $displayData);
+	}
+	else 
+	{
 		$random=random_string('alnum',10);
 		$displayData['authUrl'] = GOOGLE_REDIRECT_URI."&state=".$random;
 		$displayData['random'] = $random;
@@ -933,25 +927,27 @@ public function editRole($role_id){
 	}
 }
 
-public function deleteRole($role_id){
+public function editthisrole()
+{
 	$this->load->model('enterprisesmodel');
 	$this->load->library('session');
 	$sessionUserData = $this->session->all_userdata();
-	if(isset($sessionUserData['logged_in']) && $sessionUserData['logged_in']){
-		$displayData['allPanelsArray']=$this->enterprisesmodel->getAllPanels('Yes');
-		$deleteResult=$this->enterprisesmodel->deleteRole($role_id);
-		if($deleteResult){
-			$displayData['messageD']="Role deleted successfully!";
-		}else{
-			$displayData['messageD']="Role deletion failed.";
-		}
-		$displayData['allRolesArray']=$this->enterprisesmodel->getAllRoles('Yes');
-
-		$displayData['menuPanelsArray']=$this->enterprisesmodel->getAllPanelsByRole($sessionUserData['user_role_id']);
-		$displayData['sessionUserData']=$sessionUserData;
-		$this->load->view('role/viewRoles', $displayData);
-
-	}else {
+	
+	if(isset($sessionUserData['logged_in']) && $sessionUserData['logged_in'])
+	{
+		$roleid = $_POST['role'];
+		
+		$displayData['panelsArray'] = $this->enterprisesmodel->getAllPanels();
+		$displayData['rolesArray'] = $this->enterprisesmodel->getAllRoles();
+		$displayData['menuPanelsArray'] = $this->enterprisesmodel->getAllPanelsByRole($sessionUserData['user_role_id']);
+		$displayData['sessionUserData'] = $sessionUserData;
+		$displayData['allInformation'] = $this->enterprisesmodel->getAllRoleInformation($roleid);
+		$displayData['roleid'] = $roleid;
+		
+		$this->load->view('roles/editthisrole', $displayData);
+	}
+	else
+	{
 		$random=random_string('alnum',10);
 		$displayData['authUrl'] = GOOGLE_REDIRECT_URI."&state=".$random;
 		$displayData['random'] = $random;
@@ -959,23 +955,73 @@ public function deleteRole($role_id){
 	}
 }
 
-public function updateRole($role_id){
+public function updaterole()
+{
 	$this->load->model('enterprisesmodel');
 	$this->load->library('session');
 	$sessionUserData = $this->session->all_userdata();
-	if(isset($sessionUserData['logged_in']) && $sessionUserData['logged_in']){
-		$displayData['allPanelsArray']=$this->enterprisesmodel->getAllPanels('Yes');
-		$updateResult=$this->enterprisesmodel->updateRole($role_id, $_POST);
-		if($updateResult){
-			$displayData['messageU']="Role updated successfully!";
-		}else{
-			$displayData['messageU']="Role updation failed.";
-		}
-		$displayData['allRolesArray']=$this->enterprisesmodel->getAllRoles('Yes');
+
+	if(isset($sessionUserData['logged_in']) && $sessionUserData['logged_in'])
+	{	
+		$displayData['roleid'] = $_POST['roleid'];
+		$displayData['rolename'] = $_POST['rolename'];
+		$displayData['roledesc'] = $_POST['roledesc'];
+		$displayData['active'] = $_POST['active'];
+		$displayData['param'] = $_POST['param'];
+		
+		$this->enterprisesmodel->updaterole($displayData);
+	}
+	else
+	{
+		$random=random_string('alnum',10);
+		$displayData['authUrl'] = GOOGLE_REDIRECT_URI."&state=".$random;
+		$displayData['random'] = $random;
+		$this->load->view('login', $displayData);
+	}
+}
+
+public function deleterole()
+{
+	$this->load->model('enterprisesmodel');
+	$this->load->library('session');
+	$sessionUserData = $this->session->all_userdata();
+	
+	if(isset($sessionUserData['logged_in']) && $sessionUserData['logged_in'])
+	{
+		$displayData['rolesArray'] = $this->enterprisesmodel->getAllRoles();
+		$displayData['panelsArray']=$this->enterprisesmodel->getAllPanels();
 		$displayData['menuPanelsArray']=$this->enterprisesmodel->getAllPanelsByRole($sessionUserData['user_role_id']);
 		$displayData['sessionUserData']=$sessionUserData;
-		$this->load->view('role/viewRoles', $displayData);
-	} else {
+	
+		$this->load->view('roles/deleterole', $displayData);
+	}
+	else 
+	{
+		$random=random_string('alnum',10);
+		$displayData['authUrl'] = GOOGLE_REDIRECT_URI."&state=".$random;
+		$displayData['random'] = $random;
+		$this->load->view('login', $displayData);
+	}
+}
+
+public function deletethisrole()
+{
+	$this->load->model('enterprisesmodel');
+	$this->load->library('session');
+	
+	$sessionUserData = $this->session->all_userdata();
+
+	if(isset($sessionUserData['logged_in']) && $sessionUserData['logged_in'])
+	{
+		$rolename = $_POST['rolename'];
+		$result = $this->enterprisesmodel->deletethisrole($rolename);
+		if(!$result)
+			echo 'Role name does not exist';
+		else 
+			echo 'The role is no longer active.';
+	}
+	else
+	{
 		$random=random_string('alnum',10);
 		$displayData['authUrl'] = GOOGLE_REDIRECT_URI."&state=".$random;
 		$displayData['random'] = $random;
