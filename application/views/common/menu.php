@@ -11,9 +11,17 @@
     
     <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
-<body>
-<div id="cssmenu" >
-    <span class="logo"><img src="public/images/logo.png"></span>
+<body>                         
+<div id="cssmenu" class="bs-component" >
+<div class="navbar navbar-default">
+<div class="container">  
+ <div class="navbar-header">
+                                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-responsive-collapse">
+                                        <span class="icon-bar"></span>
+                                        <span class="icon-bar"></span>
+                                        <span class="icon-bar"></span>
+                                    </button>
+                                    <a href="/" style="padding: 0px !important;"><span class="navbar-brand logo"><img src="public/images/logo.png"></span></a>
 	<?php 
 		$stack[100] = array();
 		$tos = -1;
@@ -21,6 +29,9 @@
 		$count = 0;
 		
 	?>
+                                </div>
+
+  <div class="navbar-collapse collapse navbar-responsive-collapse">
 	<ul>
 		<?php 
 		while($count < count($menuPanelsArray))
@@ -38,7 +49,7 @@
               		$count++;
         ?>
 		
-		<li class='active has-sub'><a class="current"
+		<li class=''><a class="current"
 			href="<?php echo $menuPanelsArray[$i]['panel_url']; ?>"
 			title="<?php echo $menuPanelsArray[$i]['panel_name']; ?>"><?php echo $menuPanelsArray[$i]['panel_name']; ?>
 		</a>
@@ -59,13 +70,18 @@
 		}
 		?>
 		</ul>
-		<div id="cssmenu" style="position: relative; top: 0; right: 0; text-align:right;">
-		Hey, 
-		<?php 
+		<li>
+		<a class="current" href="#"><?php 
 			if (isset($sessionUserData['user_name']))
 			{ 
-				echo $sessionUserData['user_name']; }?><a href="/logout" >Logout</a>
+				echo $sessionUserData['user_name']; }?>
+
+				</a><ul><li style="width: 135px;"><a class="current" href="/logout">Logout</a></li></ul>
+		</li>
 		</div>
+
+		</div>
+</div>
 </div>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 <script type="text/javascript" src="http://code.jquery.com/ui/1.10.1/jquery-ui.js"></script>
