@@ -8,45 +8,62 @@
 	</title>	
 </head>
 <body>
-	<form name="adduserform" id="adduserform" onsubmit="return adduser()" method="post">
-		<fieldset>
-		<h3>User Information</h3>
-		<p>
-    	User Name(Email-id): <input type="text" name="username" id="username"> 
-    	<br />
-    	<br />
+<div class="formstyle container">
+  <div class="col-sm-8 col-sm-offset-2">
+    <div class="well bs-component">
+      	<form class="form-horizontal" name="adduserform" id="adduserform"  onsubmit="return adduser()" method="post">
+      		<fieldset>
+      		<h3>User Information</h3>
+          <div><hr></div>
+           <div class="form-group">
+              <div class="form-control-wrapper"><input class="form-control empty" type="email" name="username" id="username">
+                  <div class="floating-label">User Name(Email-id)</div><span class="material-input"></span>
+            </div>
+            </div>
+             <div class="form-group">
+              <div class="form-control-wrapper"><input class="form-control empty" type="text" name="name" id="name">
+                  <div class="floating-label">Name</div><span class="material-input"></span>
+            </div>
+            </div>
 
-    	Name: <input type="text" name="name" id="name">
-    	<br />
-    	<br />
+             <div class="form-group">
+              <div class="form-control-wrapper"><input class="form-control empty" type="password" name="password" id="password">
+                  <div class="floating-label">Password</div><span class="material-input"></span>
+            </div>
+            </div>
+            <div class="form-group">
+              <div class="form-control-wrapper">
+          	<p>ROLES:</p>
+          	<select class="form-control" name="role" id="role">	
+            			<?php 
+            				foreach($rolesArray as $row)
+            					echo '<option value="'.$row['roleid'].'">'.$row['rolename']."</option>";
+            			?>
+      		      </select>
+         </div></div>
 
-    	Password: <input type="password" name="password" id="password">
-    	<br />
-    	<br />
-    	
-    	ROLES: 
-    	<select name="role" id="role">	
-  			<?php 
-  				foreach($rolesArray as $row)
-  					echo '<option value="'.$row['roleid'].'">'.$row['rolename']."</option>";
-  			?>
-		</select>
-	<!--  	<br />
-		<br />
-		Panels:
-		<br />
-			<?php 
-				foreach($panelsArray as $row)
-					echo '<input type="checkbox" name="checklist[]" value="'.$row['panel_name'].'">'.$row['panel_name']."</checkbox><br />"
-			?>
-  		</p>
-  		-->
-  		<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-		<script src = "public/js/default.js"></script>
-  		
-  		<input type="button" id="sub" value="submit" onclick="adduser();">
-  		
-  		</fieldset>
-	</form>
+
+      	<!--  	<br />
+      		<br />
+      		Panels:
+      		<br />
+      			<?php 
+      				foreach($panelsArray as $row)
+      					echo '<input type="checkbox" name="checklist[]" value="'.$row['panel_name'].'">'.$row['panel_name']."</checkbox><br />"
+      			?>
+        		</p>
+        		-->
+            
+            <div><hr></div>
+            <div class="text-center">
+        		  <input type="button" class="btn btn-primary" id="sub" value="submit" onclick="adduser();">
+        		</div>
+        		</fieldset>
+      	</form>
+    </div>
+  </div>
+</div>
+
+          <script src = "public/js/default.js"></script>
 </body>
 </html>

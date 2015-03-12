@@ -6,20 +6,30 @@
 	</title>	
 </head>
 <body>
+<div class="formstyle container">
+  <div class="col-sm-8 col-sm-offset-2">
+    <div class="well bs-component">
 	<form name="deleteuserform" id="deleteuserform" onsubmit="return deleteuser()" method="post">
 		<fieldset>
 		<h3>User Information</h3>
-		<p>
-    	User Name(Email-id): <input type="text" name="username" id="username"> 
-    	<br />
-    	<br />
+		<div><hr></div>
+		<div class="form-group">
+              <div class="form-control-wrapper"><input class="form-control empty" type="email" name="username" id="username">
+                  <div class="floating-label">User Name(Email-id):</div><span class="material-input"></span>
+            </div>
+            </div>
+		
   		
-  		<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-		<script src = "public/js/default.js"></script>
-  		
-  		<input type="button" id="sub" value="Delete User" onclick="deleteuser();">
-  		
+  		<div><hr></div>
+  		<div class="text-center">
+  		<input type="button" id="sub" class="btn btn-primary" value="Delete User" onclick="deleteuser();">
+  		</div>
   		</fieldset>
 	</form>
+	</div>
+	</div>
+</div>
+
+		<script src = "public/js/default.js"></script>
 </body>
 </html>
