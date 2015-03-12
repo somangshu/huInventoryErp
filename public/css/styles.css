@@ -91,8 +91,9 @@
   border: 1px solid #0082e7;
   border-top: 0 none;
   line-height: 150%;
-  padding: 16px 20px;
+  padding: 10px 20px !important;
   font-size: 12px;
+  text-transform: capitalize;
 }
 #cssmenu ul ul ul {
   border-top: 0 none;
@@ -167,5 +168,92 @@
 .formstyle{
     padding-top: 15px !important;
 }
+
+/* styles by kaustav */
+
+/* navbar section */
+.navbar-brand{
+	padding: 7px 15px !important;
+}
+#cssmenu{
+	background:none !important;
+	border-bottom:none !important;
+}
+#cssmenu a {
+color: #FFFFFF !important;
+padding: 25px 20px !important;
+background: none;
+}
+    .logout{
+
+    	background: none !important;
+    	padding: 0px !important;
+    }
+    #cssmenu ul ul li:hover > a {
+background: #068176;
+color: #ffffff;
+}
+#cssmenu ul ul li:first-child > a {
+border-top: 1px solid #009587;
+}
     
-    
+  #cssmenu ul ul li a {
+background: #009587;
+border: 1px solid #D2E5E3;
+}
+#cssmenu ul ul li a:hover {
+background: rgba(5, 113, 103, 1);
+border: 1px solid #D2E5E3 !important;
+}
+/*   .navbar.navbar, .navbar-default.navbar {
+background-color: #007C00 !important;
+color: rgba(255, 255, 255, 0.84) !important;
+}*/
+#cssmenu ul li:hover > a, #cssmenu ul li.active > a {
+background: rgba(5, 113, 103, 1);
+color: #ffffff;
+
+}
+.divlogout{
+	padding: 23px 13px 10px 10px !important;
+margin-left: 20px !important;	
+}
+#cssmenu .divlogout a{
+	padding: 0px !important;
+	text-align: center;
+}
+#cssmenu ul ul {
+border-top: 2px solid rgba(0, 124, 0, 0);
+text-transform: none;
+}
+
+td, th {
+padding: 0;
+width: 20%;
+}
+tr{
+line-height: 20px;
+}
+.adduserform input[type="text"], input[type="password"], input[type="email"]{
+  margin-bottom: 10px;
+  margin-top: 10px;
+  vertical-align: center;
+  width: 100%;
+}
+.adduserform select{
+  margin-bottom: 10px;
+  margin-top: 10px;
+  vertical-align: center;
+}
+#edituserform .radio label{
+  margin-bottom: 10px;
+}
+#activeusers p{
+  text-transform: capitalize;
+}
+#cssmenu ul ul li:last-child > a{
+  box-shadow: 0 1px 0 #009587;
+}
+hr{
+  border-top: 1px solid #E7DFDF !important; 
+}
