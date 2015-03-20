@@ -13,7 +13,7 @@
     <div class="well bs-component">
       	<form class="form-horizontal" name="adduserform" id="adduserform"  onsubmit="return adduser()" method="post">
       		<fieldset>
-      		<h3>User Information</h3>
+      		<h3><i class="mdi-social-person-add"></i> Add User</h3>
           <div><hr></div>
            <div class="form-group">
               <div class="form-control-wrapper"><input class="form-control empty" type="email" name="username" id="username">
