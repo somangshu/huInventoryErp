@@ -13,7 +13,7 @@
     <div class="well bs-component">
 	<form name="adduserform" id="activeusers" onsubmit="return adduser()" method="post">
 		<fieldset>
-		<h3>Active User Information</h3>
+		<h3><i class="mdi-action-alarm-on"></i> Active User Information</h3>
 		<div><hr></div>
 		<ol>
 		<?php 
