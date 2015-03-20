@@ -15,12 +15,13 @@
 		$stack[++$tos] = "0";
 		$count = 0;
 	?>
-<div class="formstyle">
-                <div class="col-lg-6">
+<div class="formstyle container">
+                <div class="col-sm-8 col-sm-offset-2">
                         <div class="well bs-component">
                             <form class="form-horizontal" name="addroleform" id="addroleform" onsubmit="return addrole()" method="post">
                                 <fieldset>
-                                    <legend style="text-align: center;">Create new role</legend>
+                                    <legend style="text-align: center;">Create New Role</legend>
+                                    <div><hr></div>
                                     <div class="form-group">
                                         <div class="form-control-wrapper"><input class="form-control empty" id="rolename" type="text">
                                             <div class="floating-label">Role Name</div><span class="material-input"></span>
@@ -94,6 +95,7 @@
                                             </ul>
                                         </div>
                                     </div>
+                                    <div><hr></div>
                                     <div class="form-group">
                                         <div class="col-lg-10 col-lg-offset-2">
                                             <button class="btn btn-default">Cancel</button>

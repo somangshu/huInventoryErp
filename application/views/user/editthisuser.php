@@ -13,7 +13,7 @@
     <div class="well bs-component">
 	<form name="editthisuserform" id="editthisuserform" class="adduserform" onsubmit="return updateuser()" method="post">
 		<fieldset>
-		<h3>User Information</h3>
+		<h3><i class="mdi-content-content-paste"></i> Edit User Information</h3>
     <div><hr></div>
 	
     <div class="form-group">

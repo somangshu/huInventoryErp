@@ -108,18 +108,18 @@ $.widget("daredevel.checkboxTree", {
 //                });
 //            }
         }
-
+           // bind node check event
+        $('body').on('click','input:checkbox:checked', function() {
+            var li = $(this).parents('li:first');
+            t.check(li);
+        });
         // bind node uncheck event
         $('body').on('click','input:checkbox:not(:checked)', function() {
             var li = $(this).parents('li:first');
             t.uncheck(li);
         });
 
-        // bind node check event
-        $('body').on('click','input:checkbox:checked', function() {
-            var li = $(this).parents('li:first');
-            t.check(li);
-        });
+     
 
         // add essential css class
         this.element.addClass('ui-widget-daredevel-checkboxTree');

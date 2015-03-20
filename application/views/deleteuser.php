@@ -11,7 +11,7 @@
     <div class="well bs-component">
 	<form name="deleteuserform" id="deleteuserform" onsubmit="return deleteuser()" method="post">
 		<fieldset>
-		<h3>User Information</h3>
+                    <h3><span style="padding-top: 4px;"><i class="mdi-action-delete"></i></span> Delete User Information</h3>
 		<div><hr></div>
 		<div class="form-group">
               <div class="form-control-wrapper"><input class="form-control empty" type="email" name="username" id="username">
