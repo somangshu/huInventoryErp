@@ -76,7 +76,6 @@ function deleteuser()
 
 function editthisuser(count)
 {
-	alert(count);
 	var username;
 	for (var i = 0; i < count; i++) 
 	{
@@ -159,16 +158,49 @@ function addedrole()
 	var rolename = document.getElementById("rolename").value;
 	var roledesc = document.getElementById("roledesc").value;
 	
+	var active = 0;
+	if(document.getElementById("optionsRadios1").checked)
+		active = 1;
+	
+	var checkboxes = document.getElementsByClassName("checkbox");
+	var checked = "";
+	var count = 0;
+	
 	if(rolename == '' || roledesc == '')
     {
     	alert("One of the fields in empty.");
-    	die();
+    	return false;
     }
-	
-	 alert("validation successful.");
-	    
-	 document.forms['addroleform'].action='/addedrole';
-	 document.forms['addroleform'].submit();
+
+	else
+	{
+		for (var i=0; i<checkboxes.length; i++) 
+		{
+      		var panelid = 'panel' + i;
+      		if(document.getElementById(panelid).checked)
+      			checked += document.getElementById(panelid).value + ", ";
+     	}
+     	checked = checked.substring(0, checked.length - 2);
+
+		var datastring = 'rolename='+rolename+'&roledesc='+roledesc+'&active='+active+'&panels='+checked;
+		
+      	var url = '/addedrole';
+      	$.ajax({ 
+	     type   : "POST", 
+	     url    : url, 
+	     data   : datastring,   
+	     success: function(responseText)
+	     { 
+	    	 try
+	    	 {
+	    		 alert(responseText);
+	    	 }
+	    	 catch(e)
+	    	 {
+	    		 
+	    	 }
+	     }});
+	}
 }
 
 function addpanel()
@@ -345,3 +377,266 @@ function openDepartment()
 	document.getElementById('selOther').style.display="none";
 	}
 }
+
+	function addpanel()
+	{
+	var panelname = document.getElementById("panelname").value;
+    var panelurl = document.getElementById("panelurl").value;
+    var paneldesc = document.getElementById("paneldesc").value;
+    
+    var index = document.getElementById("type");
+    var type = index.options[index.selectedIndex].value;
+    
+    var index = document.getElementById("parent");
+    var parent = index.options[index.selectedIndex].value;
+   
+    if(panelname == '' || panelurl == '')
+    {
+    	alert("One of the fields in empty.");
+    	return false;
+    }
+    else
+	{
+		var datastring = 'panelname=' + panelname + '&panelurl=/' + panelurl + '&paneldesc=' + paneldesc + '&type=' + type + '&parent=' + parent;
+      	var url = '/addedpanel';
+      	$.ajax({ 
+	     type   : "POST", 
+	     url    : url, 
+	     data   : datastring,   
+	     success: function(responseText)
+	     { 
+	    	 try
+	    	 {
+	    		 alert(responseText);
+	    	 }
+	    	 catch(e)
+	    	 {
+	    		 
+	    	 }
+	     }});
+      }
+   }
+
+   function deletepanel()
+   {
+   		var index = document.getElementById("panelid");
+    	var panel = index.options[index.selectedIndex].value;
+    	var datastring = 'panel=' + panel;
+    	var url = '/deletedpanel';
+    	$.ajax({ 
+	     type   : "POST", 
+	     url    : url, 
+	     data   : datastring,   
+	     success: function(responseText)
+	     { 
+	    	 try
+	    	 {
+	    	 	alert(responseText);
+	       	 }
+	    	 catch(e)
+	    	 {
+	    		 
+	    	 }
+	     }});
+   }
+
+   function editpanel()
+   {
+   		var index = document.getElementById("panelid");
+    	var panel = index.options[index.selectedIndex].value;
+    	var datastring = 'panel=' + panel;
+    	var url = '/editthispanel';
+    	$.ajax({ 
+	     type   : "POST", 
+	     url    : url, 
+	     data   : datastring,   
+	     success: function(responseText)
+	     { 
+	    	 try
+	    	 {
+	    	 	document.forms['editpanelform'].action='/editthispanel';
+	    	 	document.forms['editpanelform'].submit();
+	       	 }
+	    	 catch(e)
+	    	 {
+	    		 
+	    	 }
+	     }});
+   }
+   
+function updatepanel()
+{
+   	var panelid = document.getElementById("panelid").value;
+   	var panelname = document.getElementById("panelname").value;
+   	var panelurl = document.getElementById("panelurl").value;
+   	var paneldesc = document.getElementById("paneldesc").value;
+   	
+   	var index = document.getElementById("type");
+   	var type = index.options[index.selectedIndex].value;
+   	
+   	var index = document.getElementById("parent");
+   	var parent = index.options[index.selectedIndex].value;
+   	
+   	if(panelname == '')
+    {
+       	alert("Panel name cannot be empty.");
+       	return false;
+    }
+   	else
+   	{
+   		var datastring = 'panelid='+panelid+'&panelname='+panelname+'&panelurl='+panelurl+'&paneldesc='+paneldesc+'&type='+type+'&parent='+parent; 
+         	var url = '/updatepanel';
+         	$.ajax({ 
+   	     type   : "POST", 
+   	     url    : url, 
+   	     data   : datastring,   
+   	     success: function(responseText)
+   	     { 
+   	    	 try
+   	    	 {
+   	    		 alert(responseText);
+   	    	 }
+   	    	 catch(e)
+   	    	 {
+   	    		 
+   	    	 }
+   	     }});
+   	}
+}
+
+function editrole()
+{
+	var flag = document.getElementById("flag").value;
+	var index = document.getElementById("role");
+    var rolename = index.options[index.selectedIndex].text;
+
+	if(rolename == '')
+    {
+    	alert("Please select a role.");
+    	return false;
+    }
+
+    document.getElementById("flag").value = 1;
+    document.forms['editroleform'].action='/editthisrole';
+	document.forms['editroleform'].submit();
+}
+
+function updaterole()
+{
+	var roleid = document.getElementById("roleid").value;
+	var rolename = document.getElementById("rolename").value;
+	var roledesc = document.getElementById("roledesc").value;
+	
+	var active = 0;
+	if(document.getElementById("optionsRadios1").checked)
+		active = 1;
+	
+	var checkboxes = document.getElementsByClassName("checkbox");
+	var checked = "";
+	var count = 0;
+	
+	if(rolename == '' || roledesc == '')
+    {
+    	alert("One of the fields in empty.");
+    	return false;
+    }
+
+	else
+	{
+		for (var i=0; i<checkboxes.length; i++) 
+		{
+			
+      		var panelid = 'panel' + i;
+      		if(document.getElementById(panelid).checked)
+      		{
+      			checked += document.getElementById(panelid).value + ", ";
+      		}
+     	}
+     	checked = checked.substring(0, checked.length - 2);
+     	var datastring = 'rolename='+rolename+'&roledesc='+roledesc+'&active='+active+'&panels='+checked;
+      	var url = '/updaterole';
+      	$.ajax({ 
+	     type   : "POST", 
+	     url    : url, 
+	     data   : datastring,   
+	     success: function(responseText)
+	     {
+
+	    	 if(responseText == '1')
+	    	 {
+	    	 	alert("Role update success");
+	    	 	location.href="/editrole";
+	    	 }
+	    	 else if(responseText == '0')
+	    	 {
+	    	 	alert("Role update failed. Please try again.");
+	    	 }
+	     }});
+	}
+}
+
+   function deleterole()
+   {
+   		var index = document.getElementById("roleid");
+    	var role = index.options[index.selectedIndex].value;
+    	var datastring = 'role=' + role;
+    	var url = '/deletedrole';
+    	$.ajax({ 
+	     type   : "POST", 
+	     url    : url, 
+	     data   : datastring,   
+	     success: function(responseText)
+	     { 
+	    	 try
+	    	 {
+	    	 	
+	       	 }
+	    	 catch(e)
+	    	 {
+	    		 
+	    	 }
+	     }});
+   }
+
+   function updateimages()
+   {
+      	
+      	var tag;
+   		
+   		tag = document.getElementById('tag').value;
+   	    
+   		if(tag == '')
+       	{
+       		alert("Please select a role.");
+       		return false;
+       	}
+       	alert(tag);
+        document.forms['gettagform'].action='/updateimagesfromtag';
+   		document.forms['gettagform'].submit();
+   }
+
+   function search()
+   {
+   		var date = document.getElementById('date').value;
+   		var tag = document.getElementById('tag').value;
+   		var index = document.getElementById("source");
+    	var source = index.options[index.selectedIndex].value;
+
+		document.forms['searchform'].action='/getimages/1';
+   		document.forms['searchform'].submit();
+   }
+
+   function getinfo(url, page)
+   {
+   		if(url == 'getimages')
+   		{
+   			var date = document.getElementById('date').value;
+   			var tag = document.getElementById('tag').value;
+   			var source = document.getElementById('source').value;
+   		}
+
+   		var redirect = "/" + url + "/" + page;
+   		
+   		document.forms['infoform'].action=redirect;
+   		document.forms['infoform'].submit(); 		
+   }

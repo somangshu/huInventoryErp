@@ -43,7 +43,6 @@ $route['404_override'] = '';
 $route['action'] = "welcome/action";
 $route['validateLogin'] = "welcome/validateLogin";
 $route['adduser'] = "welcome/adduser";
-$route['addrole'] = "welcome/addrole";
 $route['addpanel'] = "welcome/addpanel";
 $route['deleteuser'] = "welcome/deleteuser";
 $route['edituser'] = "welcome/edituser";
@@ -52,7 +51,6 @@ $route['editthisuser'] = "welcome/editthisuser";
 $route['viewdelete'] = "welcome/viewdelete";
 $route['activeuser'] = "welcome/activeuser";
 $route['addeduser'] = "welcome/addeduser";
-$route['addedrole'] = "welcome/addedrole";
 $route['addedpanel'] = "welcome/addedpanel";
 $route['userslink'] = "welcome/userslink";
 $route['roleslink'] = "welcome/roleslink";
@@ -61,7 +59,27 @@ $route['logout'] = "welcome/logout";
 $route['home'] = "welcome";
 $route['addrole'] = "welcome/addrole";
 $route['addedrole'] = "welcome/addedrole";
-
+$route['deletepanel'] = "welcome/deletepanel";
+$route['deletedpanel'] = "welcome/deletedpanel";
+$route['editpanel'] = "welcome/editpanel";
+$route['editthispanel'] = "welcome/editthispanel";
+$route['updatepanel'] = "welcome/updatepanel";
+$route['visiblepanels'] = "welcome/visiblepanels";
+$route['hiddenpanels'] = "welcome/hiddenpanels";
+$route['editrole'] = "welcome/editrole";
+$route['editthisrole'] = "welcome/editthisrole";
+$route['deleterole'] = "welcome/deleterole";
+$route['deletedrole'] = "welcome/deletedrole";
+$route['updaterole'] = "welcome/updaterole";
+$route['instagram'] = "site/hash";
+$route['displayimages/(:any)'] = "site/displayimages/$1";
+$route['updateimages'] = "site/updateimages";
+$route['updateimagesfromtag'] = "site/updateimagesfromtag";
+$route['searchimages'] = "site/searchimages";
+$route['getimages/(:any)'] = "site/getimages/$1";
+$route['pagination'] = "site/pagination";
+$route['imageinfo/(:any)'] = "site/imageinfo/$1";
+$route['vidisha'] = "site/vidisha";
 
 /* End of file routes.php */
 /* Location: ./application/config/routes.php */

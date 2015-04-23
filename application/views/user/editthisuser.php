@@ -25,7 +25,7 @@
               <div class="form-control-wrapper"><input class="form-control empty" type="text" name="name" id="name" value="<?php echo $username;?>">
                   <div class="floating-label">Name</div><span class="material-input"></span>
             </div>
-            </div>
+    </div>
   <div class="form-group">
               <div class="form-control-wrapper">
     	Active:
@@ -48,7 +48,7 @@
     </div>
       <div class="form-group">
               <div class="form-control-wrapper">
-    	ROLES:
+    	Roles:
     	<select class="form-control" name="role" id="role">	
   			<?php 
   				foreach($rolesArray as $row)
